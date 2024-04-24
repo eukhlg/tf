@@ -27,3 +27,13 @@ variable "zone" {
     type        = string
     default     = "ru-central1-b" # where to take? - Web UI or CLI
 }
+
+# Adding locals
+
+locals {
+  network_name       = "lemp-net"
+  subnet_name        = "lemp-net-subnet"
+  sg_vm_name         = "lemp-security-group"
+  vm_name            = "lemp-vm"
+  dns_zone_name      = "lemp-dns-zone"
+}
