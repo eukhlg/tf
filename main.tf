@@ -49,10 +49,15 @@ resource "yandex_iam_service_account_static_access_key" "sa-static-key" {
   description        = "static access key for object storage"
 }
 
-module "vpc" {
-  source = "./vpc"
-  sg_name      = "lemp_sg"
+module "vpc-net" {
+  source = "./vpc-net"
   network_name = "vpc_network"
+}
+
+module "vpc-subnet" {
+  source = "./vpc-subnet"
+  vpc_net = module.vpc-net.vpc_net
+  sg_name      = "lemp_sg"
   subnet_name  = "lemp_subnet"
   subnet_scope = ["10.158.77.0/24"]
   subnet_zone  = "ru-central1-a"
@@ -65,6 +70,6 @@ module "yc_instance" {
   family  = "lemp"
   vm_zone = "ru-central1-a"
   vm_user = "praetorian"
-  vm_subnet = module.vpc.vpc_subnet
-  vm_sg = [module.vpc.vpc_sg]
+  vm_subnet = module.vpc-subnet.vpc_subnet
+  vm_sg = [module.vpc-subnet.vpc_sg]
 }
