@@ -61,10 +61,10 @@ module "vpc" {
 
 module "yc_instance" {
   source  = "./yc_instance"
-  vm_user = "praetorian"
+  vm_name = "lemp"
   family  = "lemp"
   vm_zone = "ru-central1-a"
-  vm_name = "lemp_vm"
+  vm_user = "praetorian"
   vm_subnet = module.vpc.vpc_subnet
   vm_sg = [module.vpc.vpc_sg]
 }
