@@ -28,34 +28,3 @@ variable "zone" {
     default     = "ru-central1-a" # where to take? - Web UI or CLI
 }
 
-variable "vm_user" {
-    description = "Instance admin"
-    type = string
-    default = "vm_user"
-}
-
-# export TF_VAR_vm_user=
-
-variable "ssh_key_path" {
-    description = "Path to SSH key"
-    type = string
-    default = "~/.ssh/id_ed25519.pub"
-}
-
-# export TF_VAR_ssh_key_path=
-
-# Adding locals
-
-locals {
-    network_name       = "lemp-net"
-    subnet_name        = "lemp-net-subnet"
-    sg_vm_name         = "lemp-security-group"
-    vm_name            = "lemp-vm"
-    dns_zone_name      = "lemp-dns-zone"
-
-    lapm_network_name  = "lamp-net"
-    lamp_subnet_name   = "lamp-net-subnet"
-    lamp_sg_vm_name    = "lamp-security-group"
-    lamp_vm_name       = "lamp-vm"
-    lamp_dns_zone_name = "lamp-dns-zone"
-}
