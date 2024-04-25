@@ -15,9 +15,7 @@ terraform {
     bucket = "tf-bucket-eukhlg"
     region = "ru-central1"
     key    = "tfstate/terraform.tfstate"
-    access_key = "YCAJEiOXiwWJc_OFfNMovGXW6"
-    secret_key = "YCM_PMrSvp0sisFokOUTqlNKJMXI5T4POvyXR2xJ"
-
+    
     skip_region_validation      = true
     skip_credentials_validation = true
     skip_requesting_account_id  = true # This option is required to describe backend for Terraform version 1.6.1 or higher.
