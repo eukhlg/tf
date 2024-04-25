@@ -54,7 +54,7 @@ module "vpc-net" {
   network_name = "vpc_network"
 }
 
-module "vpc-subnet" {
+module "vpc-subnet-lemp" {
   source = "./vpc-subnet"
   vpc_net = module.vpc-net.vpc_net
   sg_name      = "lemp_sg"
@@ -64,12 +64,32 @@ module "vpc-subnet" {
   
 }
 
-module "yc_instance" {
+module "vpc-subnet-lamp" {
+  source = "./vpc-subnet"
+  vpc_net = module.vpc-net.vpc_net
+  sg_name      = "lamp_sg"
+  subnet_name  = "lamp_subnet"
+  subnet_scope = ["10.158.78.0/24"]
+  subnet_zone  = "ru-central1-b"
+  
+}
+
+module "yc_instance-lemp" {
   source  = "./yc_instance"
   vm_name = "lemp"
   family  = "lemp"
   vm_zone = "ru-central1-a"
   vm_user = "praetorian"
-  vm_subnet = module.vpc-subnet.vpc_subnet
-  vm_sg = [module.vpc-subnet.vpc_sg]
+  vm_subnet = module.vpc-subnet-lemp.vpc_subnet
+  vm_sg = [module.vpc-subnet-lemp.vpc_sg]
+}
+
+module "yc_instance-lamp" {
+  source  = "./yc_instance"
+  vm_name = "lamp"
+  family  = "lamp"
+  vm_zone = "ru-central1-b"
+  vm_user = "praetorian"
+  vm_subnet = module.vpc-subnet-lamp.vpc_subnet
+  vm_sg = [module.vpc-subnet-lamp.vpc_sg]
 }
