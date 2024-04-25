@@ -61,6 +61,7 @@ module "vpc-subnet-lemp" {
   subnet_name  = "lemp_subnet"
   subnet_scope = ["10.158.77.0/24"]
   subnet_zone  = "ru-central1-a"
+  management_ip = local.man_ip
   
 }
 
@@ -71,7 +72,7 @@ module "vpc-subnet-lamp" {
   subnet_name  = "lamp_subnet"
   subnet_scope = ["10.158.78.0/24"]
   subnet_zone  = "ru-central1-b"
-  
+  management_ip = local.man_ip
 }
 
 module "yc_instance-lemp" {

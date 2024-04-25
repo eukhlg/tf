@@ -23,8 +23,11 @@ variable "folder_id" {
 # export TF_VAR_folder_id=
 
 variable "zone" {
-    description = "YC Compute Zone"
+    description = "YC default zone"
     type        = string
-    default     = "ru-central1-a" # where to take? - Web UI or CLI
+    default     = "ru-central1-a"
 }
 
+locals {
+  man_ip = ["95.140.147.80/32"]
+}

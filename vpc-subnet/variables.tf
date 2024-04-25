@@ -16,3 +16,8 @@ variable "subnet_zone" {
 variable "sg_name" {
     type = string
 }
+
+variable "management_ip" {
+    type = list(string)
+  
+}
