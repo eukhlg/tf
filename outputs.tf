@@ -7,5 +7,10 @@ output "secret_key" {
   sensitive = true
 }
 
+output "instance_public_ip" {
+  value = module.yc_instance.instance_public_ip
+}
+
+
 # terraform output -raw secret_key
 # terraform output -raw access_key
