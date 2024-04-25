@@ -25,8 +25,24 @@ variable "folder_id" {
 variable "zone" {
     description = "YC Compute Zone"
     type        = string
-    default     = "ru-central1-b" # where to take? - Web UI or CLI
+    default     = "ru-central1-a" # where to take? - Web UI or CLI
 }
+
+variable "vm_user" {
+    description = "Instance admin"
+    type = string
+    default = "vm_user"
+}
+
+# export TF_VAR_vm_user=
+
+variable "ssh_key_path" {
+    description = "Path to SSH key"
+    type = string
+    default = "ssh_key_path"
+}
+
+# export TF_VAR_ssh_key_path=
 
 # Adding locals
 

@@ -9,3 +9,8 @@ output "secret_key" {
 
 # terraform output -raw secret_key
 # terraform output -raw access_key
+
+output "network_settings" {
+    value = yandex_compute_instance.lemp-vm.network_interface # Didn't find how to get only IP from the list
+}
+

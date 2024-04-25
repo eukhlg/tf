@@ -70,6 +70,14 @@ resource "yandex_vpc_security_group" "lemp-security-group" {
     v4_cidr_blocks = ["0.0.0.0/0"]
     port           = 443
   }
+
+ingress {
+    protocol       = "TCP"
+    description    = "ext-https"
+    v4_cidr_blocks = ["83.242.181.181/32"]
+    port           = 22
+  }
+
 }
 
 # Getting data from source
@@ -103,5 +111,10 @@ resource "yandex_vpc_security_group" "lemp-security-group" {
     nat       = true
   }
 
+  metadata = {
+    user-data = "#cloud-config\nusers:\n  - name: ${var.vm_user}\n    groups: sudo\n    shell: /bin/bash\n    sudo: ['ALL=(ALL) NOPASSWD:ALL']\n    ssh-authorized-keys:\n      - ${file("${var.ssh_key_path}")}"
+  }
+
 }
+
 
