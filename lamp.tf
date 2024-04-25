@@ -10,7 +10,7 @@ resource "yandex_vpc_subnet" "lamp-net-subnet" {
   name           = local.lamp_subnet_name
   v4_cidr_blocks = ["10.158.78.0/24"]
   zone           = "ru-central1-b" #overriding default value
-  network_id     = yandex_vpc_network.lamp-net
+  network_id     = yandex_vpc_network.lamp-net.id
 }
 
 # Creating security group
