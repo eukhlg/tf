@@ -10,7 +10,7 @@ output "secret_key" {
 # terraform output -raw secret_key
 # terraform output -raw access_key
 
-output "network_settings" {
-    value = yandex_compute_instance.lemp-vm.network_interface # Didn't find how to get just Public IP from the list
+output "public_ip" {
+    value = yandex_compute_instance.lemp-vm.network_interface.0.nat_ip_address
 }
 
