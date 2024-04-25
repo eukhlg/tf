@@ -39,7 +39,7 @@ variable "vm_user" {
 variable "ssh_key_path" {
     description = "Path to SSH key"
     type = string
-    default = "ssh_key_path"
+    default = "~/.ssh/id_ed25519.pub"
 }
 
 # export TF_VAR_ssh_key_path=
