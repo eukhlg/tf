@@ -14,3 +14,6 @@ output "lemp_public_ip" {
     value = yandex_compute_instance.lemp-vm.network_interface.0.nat_ip_address
 }
 
+output "lamp_public_ip" {
+    value = yandex_compute_instance.lamp-vm.network_interface.0.nat_ip_address
+}
