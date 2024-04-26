@@ -107,16 +107,16 @@ module "nlb" {
   nlb_name = "my-nlb"
   listener_name = "my-nlb-listener"
   tg_name = "tg-1"
-  targets = {
-    target = {
+  targets = [
+        {
         subnet_id = module.vpc-subnet-lemp.vpc_subnet
         address   = module.yc_instance-lemp.instance_internal_ip
-  }
+        },
 
-    target = {
+        {
         subnet_id = module.vpc-subnet-lamp.vpc_subnet
         address   = module.yc_instance-lamp.instance_internal_ip
-  }
+        }
+    ]
 
-}
 }
