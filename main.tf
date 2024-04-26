@@ -97,7 +97,26 @@ module "yc_instance-lamp" {
 
 module "tfstate-bucket" {
     source = "./bucket"
-    bucket_name = local.tfstate_bucket_name
+    bucket_name = "tfstate-eukhlg"
     access_key = yandex_iam_service_account_static_access_key.sa-static-key.access_key
     secret_key = yandex_iam_service_account_static_access_key.sa-static-key.secret_key
+}
+
+module "nlb" {
+  source = "./nlb"
+  nlb_name = "my-nlb"
+  listener_name = "my-nlb-listener"
+  tg_name = "tg-1"
+  targets = {
+    target = {
+        subnet_id = module.vpc-subnet-lemp.vpc_subnet
+        address   = module.yc_instance-lemp.instance_internal_ip
+  }
+
+    target = {
+        subnet_id = module.vpc-subnet-lamp.vpc_subnet
+        address   = module.yc_instance-lamp.instance_internal_ip
+  }
+
+}
 }
