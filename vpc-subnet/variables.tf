@@ -1,23 +1,23 @@
 variable "vpc_net" {
-    type = string
+  type = string
 }
 
 variable "subnet_name" {
-    type = string
+  type = string
 }
 
 variable "subnet_scope" {
-    type = list(string)
+  type = list(string)
 }
 
 variable "subnet_zone" {
-    type = string
+  type = string
 }
 variable "sg_name" {
-    type = string
+  type = string
 }
 
 variable "management_ip" {
-    type = list(string)
-  
+  type = list(string)
+
 }

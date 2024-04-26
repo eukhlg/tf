@@ -8,14 +8,14 @@ terraform {
   required_version = "= 1.8.1"
 
   #/*
-    backend "s3" {
+  backend "s3" {
     endpoints = {
       s3 = "https://storage.yandexcloud.net"
     }
     bucket = "tfstate-eukhlg"
     region = "ru-central1"
     key    = "tfstate/terraform.tfstate"
-    
+
     skip_region_validation      = true
     skip_credentials_validation = true
     skip_requesting_account_id  = true # This option is required to describe backend for Terraform version 1.6.1 or higher.
@@ -50,73 +50,73 @@ resource "yandex_iam_service_account_static_access_key" "sa-static-key" {
 }
 
 module "vpc-net" {
-  source = "./vpc-net"
+  source       = "./vpc-net"
   network_name = "vpc_network"
 }
 
 module "vpc-subnet-lemp" {
-  source = "./vpc-subnet"
-  vpc_net = module.vpc-net.vpc_net
-  sg_name      = "lemp_sg"
-  subnet_name  = "lemp_subnet"
-  subnet_scope = ["10.158.77.0/24"]
-  subnet_zone  = "ru-central1-a"
+  source        = "./vpc-subnet"
+  vpc_net       = module.vpc-net.vpc_net
+  sg_name       = "lemp_sg"
+  subnet_name   = "lemp_subnet"
+  subnet_scope  = ["10.158.77.0/24"]
+  subnet_zone   = "ru-central1-a"
   management_ip = local.man_ip
-  
+
 }
 
 module "vpc-subnet-lamp" {
-  source = "./vpc-subnet"
-  vpc_net = module.vpc-net.vpc_net
-  sg_name      = "lamp_sg"
-  subnet_name  = "lamp_subnet"
-  subnet_scope = ["10.158.78.0/24"]
-  subnet_zone  = "ru-central1-b"
+  source        = "./vpc-subnet"
+  vpc_net       = module.vpc-net.vpc_net
+  sg_name       = "lamp_sg"
+  subnet_name   = "lamp_subnet"
+  subnet_scope  = ["10.158.78.0/24"]
+  subnet_zone   = "ru-central1-b"
   management_ip = local.man_ip
 }
 
 module "yc_instance-lemp" {
-  source  = "./yc_instance"
-  vm_name = "lemp"
-  family  = "lemp"
-  vm_zone = "ru-central1-a"
-  vm_user = "praetorian"
+  source    = "./yc_instance"
+  vm_name   = "lemp"
+  family    = "lemp"
+  vm_zone   = "ru-central1-a"
+  vm_user   = "praetorian"
   vm_subnet = module.vpc-subnet-lemp.vpc_subnet
-  vm_sg = [module.vpc-subnet-lemp.vpc_sg]
+  vm_sg     = [module.vpc-subnet-lemp.vpc_sg]
 }
 
 module "yc_instance-lamp" {
-  source  = "./yc_instance"
-  vm_name = "lamp"
-  family  = "lamp"
-  vm_zone = "ru-central1-b"
-  vm_user = "praetorian"
+  source    = "./yc_instance"
+  vm_name   = "lamp"
+  family    = "lamp"
+  vm_zone   = "ru-central1-b"
+  vm_user   = "praetorian"
   vm_subnet = module.vpc-subnet-lamp.vpc_subnet
-  vm_sg = [module.vpc-subnet-lamp.vpc_sg]
+  vm_sg     = [module.vpc-subnet-lamp.vpc_sg]
 }
 
 module "tfstate-bucket" {
-    source = "./bucket"
-    bucket_name = "tfstate-eukhlg"
-    access_key = yandex_iam_service_account_static_access_key.sa-static-key.access_key
-    secret_key = yandex_iam_service_account_static_access_key.sa-static-key.secret_key
+  source      = "./bucket"
+  bucket_name = "tfstate-eukhlg"
+  access_key  = yandex_iam_service_account_static_access_key.sa-static-key.access_key
+  secret_key  = yandex_iam_service_account_static_access_key.sa-static-key.secret_key
 }
 
 module "nlb" {
-  source = "./nlb"
-  nlb_name = "my-nlb"
+  source        = "./nlb"
+  nlb_name      = "my-nlb"
   listener_name = "my-nlb-listener"
-  tg_name = "tg-1"
+  tg_name       = "tg-1"
   targets = [
-        {
-        subnet_id = module.vpc-subnet-lemp.vpc_subnet
-        address   = module.yc_instance-lemp.instance_internal_ip
-        },
+    {
+      subnet_id = module.vpc-subnet-lemp.vpc_subnet
+      address   = module.yc_instance-lemp.instance_internal_ip
+    },
 
-        {
-        subnet_id = module.vpc-subnet-lamp.vpc_subnet
-        address   = module.yc_instance-lamp.instance_internal_ip
-        }
-    ]
+    {
+      subnet_id = module.vpc-subnet-lamp.vpc_subnet
+      address   = module.yc_instance-lamp.instance_internal_ip
+    }
+  ]
 
 }

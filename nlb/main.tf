@@ -1,21 +1,21 @@
 terraform {
-    required_providers {
-        yandex = {
-        source  = "yandex-cloud/yandex"
-        }
+  required_providers {
+    yandex = {
+      source = "yandex-cloud/yandex"
     }
+  }
 }
 
 resource "yandex_lb_target_group" "web-servers" {
   name = var.tg_name
 
-    dynamic "target" {
-        for_each = var.targets
-        content {
-            subnet_id = target.value["subnet_id"]
-            address   = target.value["address"]
+  dynamic "target" {
+    for_each = var.targets
+    content {
+      subnet_id = target.value["subnet_id"]
+      address   = target.value["address"]
     }
-    }
+  }
 
 }
 
@@ -30,7 +30,7 @@ resource "yandex_lb_network_load_balancer" "one" {
     }
   }
 
- attached_target_group {
+  attached_target_group {
     target_group_id = yandex_lb_target_group.web-servers.id
 
     healthcheck {

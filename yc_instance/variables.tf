@@ -31,5 +31,5 @@ variable "vm_subnet" {
 }
 
 variable "vm_sg" {
-    type = set(string)
+  type = set(string)
 }

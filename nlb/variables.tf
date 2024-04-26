@@ -12,7 +12,7 @@ variable "tg_name" {
 
 variable "targets" {
   type = list(object({
-    address = string
+    address   = string
     subnet_id = string
   }))
 }
