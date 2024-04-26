@@ -7,12 +7,12 @@ terraform {
   }
   required_version = "= 1.8.1"
 
-  /*
+  #/*
     backend "s3" {
     endpoints = {
-      s3 = "storage.yandexcloud.net"
+      s3 = "https://storage.yandexcloud.net"
     }
-    bucket = "tf-bucket-eukhlg"
+    bucket = "tfstate-eukhlg"
     region = "ru-central1"
     key    = "tfstate/terraform.tfstate"
     
@@ -21,7 +21,7 @@ terraform {
     skip_requesting_account_id  = true # This option is required to describe backend for Terraform version 1.6.1 or higher.
     skip_s3_checksum            = true # This option is required to describe backend for Terraform version 1.6.3 or higher.
   }
-  */
+  #*/
 }
 
 provider "yandex" {
@@ -97,7 +97,7 @@ module "yc_instance-lamp" {
 
 module "tfstate-bucket" {
     source = "./bucket"
-    bucket_name = "tfstate-eukhlg"
+    bucket_name = local.tfstate_bucket_name
     access_key = yandex_iam_service_account_static_access_key.sa-static-key.access_key
     secret_key = yandex_iam_service_account_static_access_key.sa-static-key.secret_key
 }
