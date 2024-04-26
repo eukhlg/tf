@@ -15,5 +15,9 @@ output "lamp_public_ip" {
   value = module.yc_instance-lamp.instance_public_ip
 }
 
+output "nlb_public_ip" {
+  value = module.nlb.public_ip
+}
+
 # terraform output -raw secret_key
 # terraform output -raw access_key
